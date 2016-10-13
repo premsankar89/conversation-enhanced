@@ -19,9 +19,6 @@
     /* JS & TS */
     var typescript = require ( 'gulp-typescript' );
 
-    /* Images */
-    var imagemin = require ( 'gulp-imagemin' );
-
     var tsProject = typescript.createProject ( 'src/main/webapp/ts/tsconfig.json' );
 
     gulp.task ( 'build-css', function () {
@@ -48,21 +45,14 @@
             .pipe ( $.size ( {'title': 'ts'} ) );
     } );
 
-    gulp.task ( 'build', ['build-ts', 'build-css','build-img','build-fonts','build-locale'], function () {
+    gulp.task ( 'build', ['build-ts', 'build-css','build-fonts','build-locale'], function () {
         return gulp.src ( appDev + 'index.html' )
             .pipe ( $.useref ( {'searchPath': './'} ) ) //node_modules dir is in the current dir, search there for dependencies!
             .pipe ( gulp.dest ( appProd ) )
             .pipe ( $.size ( {'title': 'html'} ) );
     } );
 
-    gulp.task ( 'build-img', function () {
-        return gulp.src ( appDev + 'img/**/*' )
-            .pipe ( imagemin ( {
-                progressive: true
-            } ) )
-            .pipe ( gulp.dest ( appProd + 'img/' ) );
-    } );
-
+   
     gulp.task('build-fonts', function() {
         return gulp.src(appDev + 'fonts/**/*')
             .pipe(gulp.dest ( appProd + 'fonts/' ));
